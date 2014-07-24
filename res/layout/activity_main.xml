@@ -1,0 +1,110 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".ActivityMain" >
+	<LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" 
+	        android:orientation="horizontal"
+	        style="?android:attr/buttonBarStyle"
+	        android:id="@+id/linearLayoutHeader"
+
+	        android:layout_alignParentTop="true"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentRight="true"
+	        android:useDefaultMargins="false" >
+	        
+	    <Button
+	        android:id="@+id/buttonPrev"
+	        style="?android:attr/buttonBarButtonStyle"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:layout_weight=".2"
+	        android:text="@string/previous" />
+
+	    <TextView
+	        android:id="@+id/textViewHeader"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight=".6"
+	        android:layout_gravity="center"
+	        android:gravity="center"
+	        android:text=""
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
+	   	
+	   	<Button
+	   	    android:id="@+id/buttonNext"
+	   	    style="?android:attr/buttonBarButtonStyle"
+	   	    android:layout_width="0dp"
+	   	    android:layout_height="wrap_content"
+	   	    android:layout_gravity="center"
+	   	    android:layout_weight=".2"
+	   	    android:text="@string/next" />
+	    
+	</LinearLayout>
+    <WebView
+        android:id="@+id/webViewContent"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+                android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        
+        android:layout_above="@+id/linearLayoutButtons"
+        android:layout_below="@+id/linearLayoutHeader"
+        
+         />
+
+		<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:orientation="horizontal"
+        android:id="@+id/linearLayoutButtons"
+
+        style="?android:attr/buttonBarStyle"
+      
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:useDefaultMargins="false" >
+
+        <Button
+            android:id="@+id/buttonHome"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight=".25"
+            android:text="@string/home" />
+
+        <Button
+            android:id="@+id/buttonContent"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight=".25"
+            android:text="@string/contents" />
+
+        <Button
+            android:id="@+id/buttonLink"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight=".25"
+            android:text="@string/siteLink" />
+
+        <Button
+            android:id="@+id/buttonAbout"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight=".25"
+            android:text="@string/about" />
+
+    </LinearLayout>
+
+</RelativeLayout>
