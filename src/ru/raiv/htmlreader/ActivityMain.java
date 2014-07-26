@@ -2,9 +2,14 @@ package ru.raiv.htmlreader;
 
 import ru.raiv.htmlreader.content.ContentDescriptor;
 import ru.raiv.htmlreader.content.ContentManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +20,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ActivityMain extends Activity {
 
@@ -32,10 +38,11 @@ public class ActivityMain extends Activity {
 	Button buttonAbout;
 	
 	ContentManager contentManager; 
-	
+	Resources res;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		res=getApplication().getResources();
 		setContentView(R.layout.activity_main);
 		
 		textViewHeader= (TextView)findViewById(R.id.textViewHeader);
@@ -95,8 +102,23 @@ public class ActivityMain extends Activity {
 		});
 		
 		buttonLink=     (Button)findViewById(R.id.buttonLink);
+		buttonLink.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				makeExternalRequest(res.getString(R.string.siteLinkUrl));
+			}
+		});
 		buttonAbout=    (Button)findViewById(R.id.buttonAbout);
-
+		buttonAbout.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(ActivityMain.this);
+				builder.setCancelable(true).setTitle(R.string.about).setMessage(R.string.aboutContent).create().show();
+			}
+		});
 		
 		contentManager = ContentManager.getInstance(getApplication());
 		contentManager.restoreCurrentPos(savedInstanceState);
@@ -111,8 +133,20 @@ public class ActivityMain extends Activity {
 			
 			view.scrollTo(0, pos);
 		}
-
-
+		
+		@Override
+		public boolean  shouldOverrideUrlLoading (WebView view, String url)
+		{
+			int idx = contentManager.getIndexFromLink(url);
+			if(idx!=ContentManager.NOT_MINE)
+			{
+				switchUiToPart( idx);
+				return false;
+			}
+			makeExternalRequest(url);
+			
+			return true;
+		}
 
 		
 	};	
@@ -124,7 +158,7 @@ public class ActivityMain extends Activity {
 		
 		@Override
 		public void onClick(View v) {
-			displayDataForIndex(getContentIndex()); 
+			displayDataForPart(getContentIndex()); 
 		}
 		
 	}
@@ -142,23 +176,37 @@ public class ActivityMain extends Activity {
 	protected void onResume ()
 	{
 		super.onResume();
-		displayDataForIndex(contentManager.getCurrentIndex());
+		displayDataForPart(contentManager.getCurrentIndex());
 	}
 	
 
-	
-
-	private void displayDataForIndex(int index)
+	private ContentDescriptor switchUiToPart( int index)
 	{
 		ContentDescriptor cd = contentManager.gotoPart(index);
 		textViewHeader.setText(cd.getTitle());
-		webViewContent.loadUrl(cd.getUri().toString());
 		buttonPrev.setEnabled(contentManager.hasPrev());
 		buttonNext.setEnabled(contentManager.hasNext());
-		
+		return cd;
 	}
 	
+
+	private void displayDataForPart(int index)
+	{
+		ContentDescriptor cd = switchUiToPart(index);
+		webViewContent.loadUrl(cd.getUri().toString());
+	}
 	
+	private void makeExternalRequest(String request)
+	{
+		Intent externalLinkIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(request));
+		try{
+			startActivity(externalLinkIntent);
+		} catch (ActivityNotFoundException e) {
+		  Toast.makeText(this, "No application can handle this request,"
+		    + " Please install a webbrowser",  Toast.LENGTH_LONG).show();
+		  
+		}
+	}
 	
 	
 	@Override

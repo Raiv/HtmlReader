@@ -13,15 +13,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
+
 
 import android.app.Application;
 import android.content.res.AssetManager;
-import android.content.res.XmlResourceParser;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -37,12 +35,15 @@ public class ContentManager {
 	private Set<String> extractedFiles; //unpacked files
 	private String storagePath;
 	private List<ContentDescriptor> bookFiles=new ArrayList<ContentDescriptor>();
+	private TreeMap<String,Integer> bookLinks = new TreeMap<String,Integer>(); // to get current part by link
 	
 	private static final String NL="\r\n";
 	
 	public static final String CONTENT_FILE="bookContent.html";
-	public static final int CONTENT_INDEX=-1;
 	public static final int TITLE_INDEX=0;
+	public static final int CONTENT_INDEX=-1;
+	public static final int NOT_MINE=-666;
+	
 	
 	
 	private static final String CONTENT_START="<!DOCTYPE html>"+NL+
@@ -72,7 +73,8 @@ public class ContentManager {
 			e.printStackTrace();
 		}
 		
-		File storage = app.getDir(BOOK_DIR_NAME, Application.MODE_PRIVATE);
+		@SuppressWarnings("deprecation")
+		File storage = app.getDir(BOOK_DIR_NAME, Application.MODE_WORLD_READABLE);// I know it is deprecated. But this will allow users to see media provided along with book, like mp3 or mpeg4 files 
 		storagePath = storage.getAbsolutePath();
 		extractedFiles = new TreeSet<String>(Arrays.asList(storage.list()));
 		boolean contentChanged=false;
@@ -106,6 +108,7 @@ public class ContentManager {
 				Uri uri = Uri.fromFile(f);
 				ContentDescriptor desc = new ContentDescriptor(file,title,uri);
 				bookFiles.add(desc);
+				bookLinks.put(uri.toString(), bookLinks.size());
 			}
 		
 		//content file
@@ -122,7 +125,7 @@ public class ContentManager {
 		File f = new File(storagePath+File.separator+CONTENT_FILE);
 		Uri uri = Uri.fromFile(f);
 		contents= new ContentDescriptor(CONTENT_FILE,"Содержание",uri);
-		
+		bookLinks.put(uri.toString(), CONTENT_INDEX);
 		
 	}
 	
@@ -130,6 +133,9 @@ public class ContentManager {
 	
 	
 	private static final String TITLE_TAG="<title>";
+	
+	
+ 
 	
 	private void makeContentList() throws IOException
 	{
@@ -248,6 +254,14 @@ public class ContentManager {
 		}
 		
 		return desc;
+	}
+	
+	public int getIndexFromLink(String newUrl)
+	{
+		if(!bookLinks.containsKey(newUrl))
+			return NOT_MINE;
+		return bookLinks.get(newUrl);
+		
 	}
 	
 	public boolean hasPrev()
