@@ -32,13 +32,14 @@ public final class R {
         public static final int www=0x7f020008;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000a;
+        public static final int action_settings=0x7f08000b;
         public static final int buttonAbout=0x7f080009;
         public static final int buttonContent=0x7f080007;
         public static final int buttonHome=0x7f080006;
         public static final int buttonLink=0x7f080008;
         public static final int buttonNext=0x7f080003;
         public static final int buttonPrev=0x7f080001;
+        public static final int imageViewLogo=0x7f08000a;
         public static final int linearLayoutButtons=0x7f080005;
         public static final int linearLayoutHeader=0x7f080000;
         public static final int textViewHeader=0x7f080002;
@@ -46,6 +47,7 @@ public final class R {
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
+        public static final int activity_splash=0x7f030001;
     }
     public static final class menu {
         public static final int main=0x7f070000;
@@ -57,12 +59,15 @@ public final class R {
         public static final int app_name=0x7f050000;
         public static final int contents=0x7f050005;
         public static final int home=0x7f050004;
+        /**  accesibility 
+         */
+        public static final int logo=0x7f050009;
         public static final int next=0x7f050003;
         public static final int previous=0x7f050002;
         public static final int siteLink=0x7f050006;
         /**  Non-localised strings 
          */
-        public static final int siteLinkUrl=0x7f050009;
+        public static final int siteLinkUrl=0x7f05000a;
     }
     public static final class style {
         /** 

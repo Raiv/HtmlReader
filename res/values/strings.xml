@@ -10,6 +10,9 @@
     <string name="siteLink">www</string>
     <string name="about">About</string>
     <string name="aboutContent">About content here</string>
+    <!-- accesibility -->
+    <string name="logo">logo</string>
+    
 	<!-- Non-localised strings -->
 	<string name="siteLinkUrl">http://www.google.com</string>
 </resources>
