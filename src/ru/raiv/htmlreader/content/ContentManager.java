@@ -61,6 +61,11 @@ public class ContentManager {
 	private int currentIndex=TITLE_INDEX;
 	private double currentPos=0;
 	
+	
+	private int prevIndex=TITLE_INDEX;
+	private double prevPos=0;
+	
+	
 	private ContentDescriptor contents;
 	
 	private ContentManager(Application app)
@@ -252,12 +257,17 @@ public class ContentManager {
 		// after getDescripter because of IndexOutOfBounds exception
 		if(currentIndex!=newIndex)
 		{
+			prevIndex=currentIndex;
+			prevPos=currentPos;
 			currentPos=0;
 			currentIndex = newIndex;
 		}
 		
 		return desc;
 	}
+	
+
+	
 	
 	public int getIndexFromLink(String newUrl)
 	{
@@ -299,12 +309,19 @@ public class ContentManager {
 
 	private String POSITION="position";
 	private String INDEX="index";
+	private String PREV_POSITION="prev_position";
+	private String PREV_INDEX="prev_index";
+	
+	
 	
 	private boolean needRestore=false;
 	
 	public void saveCurrentPos(Bundle state) {
 		state.putDouble(POSITION, currentPos);
 		state.putInt(INDEX, currentIndex); 
+		state.putDouble(PREV_POSITION, prevPos);
+		state.putInt(PREV_INDEX, prevIndex); 
+		
 	}
 
 
@@ -313,10 +330,26 @@ public class ContentManager {
 		{
 			currentIndex=current.getInt(INDEX, TITLE_INDEX);
 			currentPos=  current.getDouble(POSITION,0);
+			prevIndex=current.getInt(INDEX, TITLE_INDEX);
+			prevPos = current.getDouble(PREV_POSITION,0);
 			needRestore=true;
 		}
 	}
 
+	
+	public boolean processHome()
+	{
+		if(currentIndex!=CONTENT_INDEX)
+		{
+			return false;
+		}
+		
+		currentIndex=prevIndex;
+		currentPos=prevPos;
+		needRestore=true;
+		return true;
+		
+	}
 
 	public boolean isNeedRestore() {
 		return needRestore;

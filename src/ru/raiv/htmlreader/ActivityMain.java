@@ -82,12 +82,14 @@ public class ActivityMain extends Activity {
 		});
 		
 		buttonHome=     (Button)findViewById(R.id.buttonHome);
-		buttonHome.setOnClickListener(new OnNavigationClicked() {
+		buttonHome.setOnClickListener(new OnClickListener() {
+
 			@Override
-			protected int getContentIndex() {
-				
-				return ContentManager.TITLE_INDEX;
+			public void onClick(View v) {
+				if(contentManager.processHome())
+				displayDataForPart(contentManager.getCurrentIndex());
 			}
+		
 		});
 		
 		buttonContent=  (Button)findViewById(R.id.buttonContent);
