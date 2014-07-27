@@ -153,6 +153,12 @@ public class ActivityMain extends Activity {
 	};	
 
 	
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+	    super.onRestoreInstanceState(savedInstanceState);
+	    webViewContent.restoreState(savedInstanceState);
+	}
+	
 	private abstract class OnNavigationClicked implements OnClickListener{
 
 		protected abstract int getContentIndex(); 

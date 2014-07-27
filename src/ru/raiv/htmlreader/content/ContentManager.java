@@ -1,11 +1,11 @@
 package ru.raiv.htmlreader.content;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +15,8 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
+import ru.raiv.htmlreader.R;
 
 
 
@@ -47,8 +49,8 @@ public class ContentManager {
 	
 	
 	private static final String CONTENT_START="<!DOCTYPE html>"+NL+
-	"<html><head><meta charset=\"utf-8\"><title>Contents</title></head>"+NL+
-	"<body><h1>"+"Содержание"+"</h1>"+NL;//TODO move to strings.xml
+	"<html><head><meta charset=\"utf-8\"><title>%s</title></head>"+NL+
+	"<body><h1>"+"%s"+"</h1>"+NL;//TODO move to strings.xml
 	
 	private static final String CONTENT_PART="<p><a href=\"%s\">%s</a></p>"+NL;
 	
@@ -139,9 +141,10 @@ public class ContentManager {
 	
 	private void makeContentList() throws IOException
 	{
-		BufferedWriter 	w= new BufferedWriter(new FileWriter(storagePath+File.separator+CONTENT_FILE ,false));		
+		OutputStreamWriter 	w= new OutputStreamWriter(new FileOutputStream(storagePath+File.separator+CONTENT_FILE ,false),Charset.forName("UTF-8"));	
+		String contentString = app.getResources().getString(R.string.contents);
 		try{
-			w.write(CONTENT_START);
+			w.write(String.format(CONTENT_START,contentString,contentString));
 			for(ContentDescriptor desc: bookFiles)
 			{
 				String nextPart=String.format(CONTENT_PART, desc.getUri().toString(),desc.getTitle());
