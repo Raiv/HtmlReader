@@ -302,13 +302,9 @@ public class ContentManager {
 	
 	
 	
-	public Bundle saveCurrentPos() {
-
-		Bundle state = new Bundle();
+	public void saveCurrentPos(Bundle state) {
 		state.putDouble(POSITION, currentPos);
-		state.putInt(INDEX, currentIndex);
-		
-		return state;
+		state.putInt(INDEX, currentIndex); 
 	}
 
 

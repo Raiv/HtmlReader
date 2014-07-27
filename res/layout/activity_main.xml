@@ -19,11 +19,13 @@
 	    <Button
 	        android:id="@+id/buttonPrev"
 	        style="?android:attr/buttonBarButtonStyle"
+	        android:drawableLeft="@drawable/back"
 	        android:layout_width="0dp"
+	        android:gravity="center"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center"
 	        android:layout_weight=".2"
-	        android:text="@string/previous" />
+	        android:text="" />
 
 	    <TextView
 	        android:id="@+id/textViewHeader"
@@ -37,12 +39,14 @@
 	   	
 	   	<Button
 	   	    android:id="@+id/buttonNext"
+	   	    android:drawableRight="@drawable/forward"
 	   	    style="?android:attr/buttonBarButtonStyle"
 	   	    android:layout_width="0dp"
+	   	    android:gravity="center"
 	   	    android:layout_height="wrap_content"
 	   	    android:layout_gravity="center"
 	   	    android:layout_weight=".2"
-	   	    android:text="@string/next" />
+	   	    android:text="" />
 	    
 	</LinearLayout>
     <WebView
@@ -76,7 +80,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight=".25"
-            android:text="@string/home" />
+            android:drawablePadding="-25dp"
+            android:gravity="center_horizontal|bottom"
+            android:drawableBottom="@drawable/home"
+            android:text="" />
 
         <Button
             android:id="@+id/buttonContent"
@@ -85,7 +92,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight=".25"
-            android:text="@string/contents" />
+            android:drawablePadding="-25dp"
+            android:gravity="center_horizontal|bottom"
+            android:drawableBottom="@drawable/contents"
+            android:text="" />
 
         <Button
             android:id="@+id/buttonLink"
@@ -93,8 +103,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:drawablePadding="-25dp"
+            android:gravity="center_horizontal|bottom"
             android:layout_weight=".25"
-            android:text="@string/siteLink" />
+            android:drawableBottom="@drawable/www"
+            android:text="" />
 
         <Button
             android:id="@+id/buttonAbout"
@@ -102,8 +115,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:drawableBottom="@drawable/about"
+            android:drawablePadding="-25dp"
+            android:gravity="center_horizontal|bottom"
             android:layout_weight=".25"
-            android:text="@string/about" />
+            android:text="" />
 
     </LinearLayout>
 

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="contents">Содержание</string>
+    <string name="about">О программе</string>
+    <string name="aboutContent">(С) 2014 Иван Рогожев <p>raiv.ixx@gmail.com</p></string>
+</resources>

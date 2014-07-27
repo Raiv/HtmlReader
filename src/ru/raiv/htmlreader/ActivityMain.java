@@ -44,7 +44,7 @@ public class ActivityMain extends Activity {
 		super.onCreate(savedInstanceState);
 		res=getApplication().getResources();
 		setContentView(R.layout.activity_main);
-		
+		 
 		textViewHeader= (TextView)findViewById(R.id.textViewHeader);
 		webViewContent= (WebView)findViewById(R.id.webViewContent);
 		
@@ -104,7 +104,7 @@ public class ActivityMain extends Activity {
 		buttonLink=     (Button)findViewById(R.id.buttonLink);
 		buttonLink.setOnClickListener(new OnClickListener() {
 			
-			@Override
+			@Override   
 			public void onClick(View v) {
 				
 				makeExternalRequest(res.getString(R.string.siteLinkUrl));
@@ -116,10 +116,10 @@ public class ActivityMain extends Activity {
 			@Override
 			public void onClick(View v) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(ActivityMain.this);
-				builder.setCancelable(true).setTitle(R.string.about).setMessage(R.string.aboutContent).create().show();
+				builder.setCancelable(true).setTitle(R.string.about).setMessage(R.string.aboutContent).setIcon(R.drawable.about_info_normal).create().show();
 			}
 		});
-		
+		 
 		contentManager = ContentManager.getInstance(getApplication());
 		contentManager.restoreCurrentPos(savedInstanceState);
 	}
@@ -128,7 +128,8 @@ public class ActivityMain extends Activity {
 	WebViewClient webViewClient= new WebViewClient(){
 		@Override
 		public void onPageFinished (WebView view, String url){
-			int height = view.getContentHeight()-view.getHeight();
+			int contentHeight=view.getContentHeight();
+			int height = contentHeight-view.getHeight();
 			int pos =Math.max( (int)( contentManager.getCurrentPos()*(double)height),0);
 			
 			view.scrollTo(0, pos);
@@ -167,7 +168,7 @@ public class ActivityMain extends Activity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState)
 	{
-		outState=contentManager.saveCurrentPos();
+		contentManager.saveCurrentPos(outState);
 	}
 
 	

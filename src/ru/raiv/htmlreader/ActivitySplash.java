@@ -30,7 +30,8 @@ public class ActivitySplash extends Activity {
 	{
 		startTime=System.currentTimeMillis();
 		super.onResume();
-		initializer.execute((Void[])null);
+		if(initializer.getStatus()==AsyncTask.Status.PENDING)// screen rotation error if not checking
+			initializer.execute((Void[])null);
 		
 	}
 	

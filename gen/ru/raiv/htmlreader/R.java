@@ -22,26 +22,45 @@ public final class R {
     }
     public static final class drawable {
         public static final int about=0x7f020000;
-        public static final int appicon=0x7f020001;
-        public static final int back_enabled=0x7f020002;
-        public static final int contents=0x7f020003;
-        public static final int forward_enabled=0x7f020004;
-        public static final int home=0x7f020005;
-        public static final int ic_launcher=0x7f020006;
-        public static final int starter=0x7f020007;
-        public static final int www=0x7f020008;
+        public static final int about_info_disabled=0x7f020001;
+        public static final int about_info_normal=0x7f020002;
+        public static final int about_info_pressed=0x7f020003;
+        public static final int appicon=0x7f020004;
+        public static final int back=0x7f020005;
+        public static final int backward_disabled=0x7f020006;
+        public static final int backward_normal=0x7f020007;
+        public static final int backward_pressed=0x7f020008;
+        public static final int content_list_disabled=0x7f020009;
+        public static final int content_list_normal=0x7f02000a;
+        public static final int content_list_pressed=0x7f02000b;
+        public static final int contents=0x7f02000c;
+        public static final int forward=0x7f02000d;
+        public static final int forward__pressed=0x7f02000e;
+        public static final int forward_disabled=0x7f02000f;
+        public static final int forward_normal=0x7f020010;
+        public static final int forward_pressed=0x7f020011;
+        public static final int home=0x7f020012;
+        public static final int home_book_disabled=0x7f020013;
+        public static final int home_book_normal=0x7f020014;
+        public static final int home_book_pressed=0x7f020015;
+        public static final int website_earth_disabled=0x7f020016;
+        public static final int website_earth_normal=0x7f020017;
+        public static final int website_earth_pressed=0x7f020018;
+        public static final int www=0x7f020019;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000b;
+        public static final int action_settings=0x7f08000d;
         public static final int buttonAbout=0x7f080009;
         public static final int buttonContent=0x7f080007;
         public static final int buttonHome=0x7f080006;
         public static final int buttonLink=0x7f080008;
         public static final int buttonNext=0x7f080003;
         public static final int buttonPrev=0x7f080001;
-        public static final int imageViewLogo=0x7f08000a;
         public static final int linearLayoutButtons=0x7f080005;
         public static final int linearLayoutHeader=0x7f080000;
+        public static final int textView1=0x7f08000a;
+        public static final int textView2=0x7f08000b;
+        public static final int textView3=0x7f08000c;
         public static final int textViewHeader=0x7f080002;
         public static final int webViewContent=0x7f080004;
     }
@@ -53,21 +72,17 @@ public final class R {
         public static final int main=0x7f070000;
     }
     public static final class string {
-        public static final int about=0x7f050007;
-        public static final int aboutContent=0x7f050008;
+        public static final int about=0x7f050003;
+        public static final int aboutContent=0x7f050004;
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
-        public static final int contents=0x7f050005;
-        public static final int home=0x7f050004;
+        public static final int contents=0x7f050002;
         /**  accesibility 
          */
-        public static final int logo=0x7f050009;
-        public static final int next=0x7f050003;
-        public static final int previous=0x7f050002;
-        public static final int siteLink=0x7f050006;
+        public static final int logo=0x7f050005;
         /**  Non-localised strings 
          */
-        public static final int siteLinkUrl=0x7f05000a;
+        public static final int siteLinkUrl=0x7f050006;
     }
     public static final class style {
         /** 
