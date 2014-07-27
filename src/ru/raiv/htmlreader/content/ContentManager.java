@@ -287,10 +287,7 @@ public class ContentManager {
 		currentPos = newPos;
 	}
 	
-	public void setCurrentPos(int current, int max) {
-		
-		setCurrentPos(((double)current)/((double)max));
-	}
+
 
 	public ContentDescriptor getDescriptor(int idx) 
 	{
@@ -303,7 +300,7 @@ public class ContentManager {
 	private String POSITION="position";
 	private String INDEX="index";
 	
-	
+	private boolean needRestore=false;
 	
 	public void saveCurrentPos(Bundle state) {
 		state.putDouble(POSITION, currentPos);
@@ -316,7 +313,18 @@ public class ContentManager {
 		{
 			currentIndex=current.getInt(INDEX, TITLE_INDEX);
 			currentPos=  current.getDouble(POSITION,0);
+			needRestore=true;
 		}
+	}
+
+
+	public boolean isNeedRestore() {
+		return needRestore;
+	}
+
+
+	public void setNeedRestore(boolean needRestore) {
+		this.needRestore = needRestore;
 	}
 	
 	

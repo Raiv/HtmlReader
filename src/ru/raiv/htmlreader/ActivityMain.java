@@ -57,10 +57,8 @@ public class ActivityMain extends Activity {
 			@SuppressLint("ClickableViewAccessibility")
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				
-				int height = Math.max(webViewContent.getContentHeight()-webViewContent.getHeight(),1);// 1 to avoid division by zero
-				int current = webViewContent.getScrollY();
-				contentManager.setCurrentPos(current, height);
+
+				contentManager.setCurrentPos(calculateProgression(webViewContent));
 				return false;
 			}
 		});
@@ -128,11 +126,19 @@ public class ActivityMain extends Activity {
 	WebViewClient webViewClient= new WebViewClient(){
 		@Override
 		public void onPageFinished (WebView view, String url){
-			int contentHeight=view.getContentHeight();
-			int height = contentHeight-view.getHeight();
-			int pos =Math.max( (int)( contentManager.getCurrentPos()*(double)height),0);
-			
-			view.scrollTo(0, pos);
+			if (contentManager.isNeedRestore()) {
+				contentManager.setNeedRestore(false);
+	            webViewContent.postDelayed(new Runnable() {
+	                @Override
+	                public void run() {
+	                    double webviewsize = webViewContent.getContentHeight() - webViewContent.getTop();
+	                    double positionInWV = webviewsize * contentManager.getCurrentPos();
+	                    int positionY = (int) Math.round(webViewContent.getTop() + positionInWV);
+	                    webViewContent.scrollTo(0, positionY);
+	                }
+	            // Delay the scrollTo to make it work
+	            }, 300);
+			}
 		}
 		
 		@Override
@@ -156,7 +162,7 @@ public class ActivityMain extends Activity {
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 	    super.onRestoreInstanceState(savedInstanceState);
-	    webViewContent.restoreState(savedInstanceState);
+	//    webViewContent.restoreState(savedInstanceState);
 	}
 	
 	private abstract class OnNavigationClicked implements OnClickListener{
@@ -170,10 +176,21 @@ public class ActivityMain extends Activity {
 		
 	}
 	
+	private double calculateProgression(WebView content) {
+		double positionTopView = content.getTop();
+		double contentHeight = content.getContentHeight();
+		double currentScrollPosition = content.getScrollY();
+		double percentWebview = (currentScrollPosition - positionTopView) / contentHeight;
+	    return percentWebview;
+	}
+	
 	
 	@Override
 	protected void onSaveInstanceState(Bundle outState)
 	{
+		
+		
+		contentManager.setCurrentPos(calculateProgression(webViewContent));
 		contentManager.saveCurrentPos(outState);
 	}
 
