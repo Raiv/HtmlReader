@@ -221,7 +221,7 @@ public class ActivityMain extends Activity {
 		ContentDescriptor cd = switchUiToPart(index);
 		webViewContent.loadUrl(cd.getUri().toString());
 	}
-	
+	 
 	private void makeExternalRequest(String request)
 	{
 		Intent externalLinkIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(request));
