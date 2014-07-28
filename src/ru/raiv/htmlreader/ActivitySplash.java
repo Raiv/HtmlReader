@@ -30,13 +30,20 @@ public class ActivitySplash extends Activity {
 	{
 		startTime=System.currentTimeMillis();
 		super.onResume();
+		if(initializer.getStatus()==AsyncTask.Status.FINISHED)
+		{
+			initializer = new MyAsyncTask();
+		}
+		
+		
 		if(initializer.getStatus()==AsyncTask.Status.PENDING)// screen rotation error if not checking
 			initializer.execute((Void[])null);
 		
 	}
 	
+	MyAsyncTask initializer = new MyAsyncTask();
 	
-	AsyncTask<Void,Void,Void> initializer= new AsyncTask<Void,Void,Void> (){
+	private class MyAsyncTask extends AsyncTask<Void,Void,Void>{
 
 		@Override
 		protected Void doInBackground(Void... params) {

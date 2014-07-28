@@ -330,7 +330,7 @@ public class ContentManager {
 		{
 			currentIndex=current.getInt(INDEX, TITLE_INDEX);
 			currentPos=  current.getDouble(POSITION,0);
-			prevIndex=current.getInt(INDEX, TITLE_INDEX);
+			prevIndex=current.getInt(PREV_INDEX, TITLE_INDEX);
 			prevPos = current.getDouble(PREV_POSITION,0);
 			needRestore=true;
 		}
