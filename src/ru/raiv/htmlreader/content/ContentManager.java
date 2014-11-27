@@ -76,7 +76,7 @@ public class ContentManager {
 		if (files != null) {
 			for (File file : files) {
 				if (file.isDirectory()) {
-					buildFileSet(set, root);
+					buildFileSet(set, file);
 				}
 				set.add(file);
 
