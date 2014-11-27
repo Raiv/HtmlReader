@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package ru.raiv.htmlreader;
+package ru.russiaxxi.android;
 
 public final class R {
     public static final class attr {
