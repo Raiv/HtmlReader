@@ -17,6 +17,9 @@ import java.util.TreeSet;
 import ru.raiv.htmlreader.R;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -127,13 +130,32 @@ public class ContentManager {
 	
 	
 
+	private void deleteRecursive(File fileOrDirectory) {
+
+		 if (fileOrDirectory.isDirectory())
+		    for (File child : fileOrDirectory.listFiles())
+		    	deleteRecursive(child);
+
+		    fileOrDirectory.delete();
+
+		    }
+	
+	
 	private ContentManager(Application app) {
 		this.app = app;
 		assets = app.getAssets();
 		List<String>files = new LinkedList<String>();
 		makeAssetsList(files,BOOK_DIR_NAME,"");
+		SharedPreferences prefs = app.getSharedPreferences("PREFS", 0);
+		int oldVersion =prefs.getInt("version", 0);
+		PackageInfo pInfo=null;
+		try {
+			pInfo = app.getPackageManager().getPackageInfo(app.getPackageName(), 0);
+		} catch (NameNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
-
 		@SuppressWarnings("deprecation")
 		// File docDir =
 		// Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
@@ -143,6 +165,15 @@ public class ContentManager {
 													// see media provided along
 													// with book, like mp3 or
 													// mpeg4 files
+		
+		int version = pInfo.versionCode;
+		if(version>oldVersion)
+		{
+			prefs.edit().putInt("version", version).apply();
+			deleteRecursive(storage);
+		}
+		
+		
 		storage.mkdirs();
 		TreeSet<File> extracted = new TreeSet<File>();
 		buildFileSet(extracted, storage);
