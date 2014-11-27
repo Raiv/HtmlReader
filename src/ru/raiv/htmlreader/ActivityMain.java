@@ -2,6 +2,7 @@ package ru.raiv.htmlreader;
 
 import ru.raiv.htmlreader.content.ContentDescriptor;
 import ru.raiv.htmlreader.content.ContentManager;
+import ru.russiaxxi.android.R;
 import android.net.Uri;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
@@ -203,6 +204,13 @@ public class ActivityMain extends Activity {
 	{
 		super.onResume();
 		displayDataForPart(contentManager.getCurrentIndex());
+		contentManager.setNeedRestore(true);
+	}
+	
+	@Override
+	protected void onPause(){
+		super.onPause();
+		contentManager.setCurrentPos(calculateProgression(webViewContent));
 	}
 	
 

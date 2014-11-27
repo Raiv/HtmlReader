@@ -1,6 +1,7 @@
 package ru.raiv.htmlreader;
 
 import ru.raiv.htmlreader.content.ContentManager;
+import ru.russiaxxi.android.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;

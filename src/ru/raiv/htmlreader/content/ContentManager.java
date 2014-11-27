@@ -14,8 +14,6 @@ import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import ru.raiv.htmlreader.R;
-
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -233,7 +231,7 @@ public class ContentManager {
 		OutputStreamWriter w = new OutputStreamWriter(new FileOutputStream(
 				storagePath + File.separator + CONTENT_FILE, false),
 				Charset.forName("UTF-8"));
-		String contentString = app.getResources().getString(R.string.contents);
+		String contentString = app.getResources().getString(ru.russiaxxi.android.R.string.contents);
 		try {
 			w.write(String.format(CONTENT_START, contentString, contentString));
 			for (ContentDescriptor desc : bookFiles) {
