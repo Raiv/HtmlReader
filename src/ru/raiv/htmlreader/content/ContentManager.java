@@ -1,6 +1,7 @@
 package ru.raiv.htmlreader.content;
 
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +22,7 @@ import ru.raiv.htmlreader.R;
 
 
 import android.app.Application;
+import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -49,7 +51,8 @@ public class ContentManager {
 	
 	
 	private static final String CONTENT_START="<!DOCTYPE html>"+NL+
-	"<html><head><meta charset=\"utf-8\"><title>%s</title></head>"+NL+
+	"<html><head><meta charset=\"utf-8\"><title>%s</title>"+NL+
+	"<style type=\"text/css\"> a { text-decoration: none; color: black;}</style></head>"+NL+
 	"<body><h1>"+"%s"+"</h1>"+NL;//TODO move to strings.xml
 	
 	private static final String CONTENT_PART="<p><a href=\"%s\">%s</a></p>"+NL;
@@ -68,6 +71,42 @@ public class ContentManager {
 	
 	private ContentDescriptor contents;
 	
+	
+	
+	private void buildFileSet( TreeSet<File> set, File root){
+		if(root.isFile())
+			return;
+		File[] files =root.listFiles();
+		for(File file: files)
+		{
+			if(file.isDirectory())
+			{
+				buildFileSet(set,root);
+			}
+			set.add(file);
+			
+		}
+	}
+	
+	private TreeSet<String> extractRelativePaths(TreeSet<File> fileSet, String root)
+	{
+		TreeSet<String> files = new TreeSet<String>();
+		for (File file: fileSet)
+		{
+			String name = file.getAbsolutePath();
+			if(name.startsWith(root))
+			{
+				name = name.substring(root.length());
+				files.add(name);
+			}else
+			{
+				throw new RuntimeException("Root must be absolute path!");
+			}
+		}
+		return files;
+	}
+	
+	
 	private ContentManager(Application app)
 	{
 		this.app=app;
@@ -82,12 +121,16 @@ public class ContentManager {
 		
 		@SuppressWarnings("deprecation")
 		File storage = app.getDir(BOOK_DIR_NAME, Application.MODE_WORLD_READABLE);// I know it is deprecated. But this will allow users to see media provided along with book, like mp3 or mpeg4 files 
+		TreeSet<File> extracted = new TreeSet<File>();
+		buildFileSet(extracted,storage);
 		storagePath = storage.getAbsolutePath();
-		extractedFiles = new TreeSet<String>(Arrays.asList(storage.list()));
+		TreeSet<String>extractedFiles =  extractRelativePaths(extracted,storagePath);
+				
+	
 		boolean contentChanged=false;
 		//book files
 		//TODO - check for data length to update properly
-		try {
+
 			for(String file : files)
 			{
 				
@@ -99,10 +142,7 @@ public class ContentManager {
 						contentChanged=true;
 				}
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
+
 		
 		//index list
 		
@@ -207,27 +247,40 @@ public class ContentManager {
 	
 	//webview could not work directly with assets, so we need to extract all data in app storage folder.
 	// now only plain dir structure supported
-	private void extractData(String fileToCreate,String storage) throws IOException
+	private void extractData(String fileToCreate,String storage) //throws IOException
 	{
-
+		
 		FileOutputStream o= null;
 		InputStream i = null;
 		try{
-			o = new FileOutputStream(storage+File.separator+fileToCreate);
 			i =assets.open(BOOK_DIR_PATH+fileToCreate);
+			o = new FileOutputStream(storage+File.separator+fileToCreate);
 			byte[] buffer = new byte[1024];
 			int cnt;
 			while ((cnt=i.read(buffer))>0)
 			{
 				o.write(buffer, 0, cnt);
 			}
+		}catch(IOException e)
+		{
+			// maybe we have dir passed? just do nothing
 		}
 		finally
 		{
 			if(i!=null)
-				i.close();
+				try {
+					i.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			if(o!=null)
-				o.close();
+				try {
+					o.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		}
 	}
 	
